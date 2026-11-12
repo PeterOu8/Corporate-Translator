@@ -14,7 +14,7 @@ describe('translation prompts', () => {
     'defines intensity %i with a concise prompt',
     (intensity) => {
       const prompt = buildTranslationPrompt({ ...input, intensity });
-      expect(prompt.messages[0].content.length).toBeLessThan(4500);
+      expect(prompt.messages[0].content.length).toBeLessThan(5500);
       expect(prompt.messages[0].content).toContain(`Intensity ${intensity}/5`);
       expect(prompt.messages[0].content).toContain('Never invent metrics');
       expect(prompt.messages[1].content).toBe(input.text);
@@ -86,6 +86,31 @@ describe('translation prompts', () => {
     'Where is the bathroom? → Quick question for my network: where is the bathroom? 🤔',
   ])('retains the supplied phrase anchor: %s', (phrase) => {
     expect(buildTranslationPrompt(input).messages[0].content).toContain(phrase);
+  });
+  it.each([
+    'You are an asshole and I want nothing to do with you.',
+    'I hate this service and hope you get hurt.',
+  ])(
+    'preserves criticism while directing harmful wishes into boundaries',
+    (text) => {
+      const prompt = buildTranslationPrompt({ ...input, text });
+      const system = prompt.messages[0].content;
+      expect(system).toContain(
+        'blend cutting corporate sarcasm with absurd professional disengagement',
+      );
+      expect(system).toContain('do not convert criticism into sincere praise');
+      expect(system).toContain('Preserve emotional force, not literal harm');
+      expect(system).toContain('Never disguise violence as business jargon');
+      expect(system).toContain('#ProfessionalBoundaries #StrategicExit');
+      expect(prompt.messages[1].content).toBe(text);
+    },
+  );
+
+  it('keeps the forward sarcasm guidance out of reverse translation', () => {
+    const system = buildTranslationPrompt({ ...input, mode: 'reverse' })
+      .messages[0].content;
+    expect(system).not.toContain('professional disengagement');
+    expect(system).toContain('clear, concise everyday English');
   });
   it('enforces the final shared input contract', () => {
     expect(translationSchema.safeParse(input).success).toBe(true);

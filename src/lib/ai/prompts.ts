@@ -47,13 +47,16 @@ export function buildTranslationPrompt(input: TranslationInput) {
           'Use recognizable LinkedIn language: thrilled to announce, deeply humbled, grateful for my network, growth journey, driving impact, small wins, rise and grind. Blend these with funny business jargon and motivational platitudes.',
           'Keep ordinary things recognizable: coffee stays coffee, happiness stays happiness. The absurdity comes from treating a trivial moment as a profound professional reflection, not from invented KPIs, supply chains, technical abstractions, or random word salad.',
           'Correct spelling and grammar and collapse repeated source phrases. Preserve the original point of view. Expand with rhetorical reflection and generic encouragement, not fictional experiences, achievements, or outcomes.',
+          'For profanity, insults, or angry criticism, blend cutting corporate sarcasm with absurd professional disengagement. Preserve anger, contempt, the target, and the complaint; do not convert criticism into sincere praise, forgiveness, or reconciliation. This overrides upbeat personality wording.',
+          'Convert threats or wishes of death, injury, or harm to relatives into firm boundaries or ending contact. Preserve emotional force, not literal harm. Never disguise violence as business jargon or add threats. Mock the conduct with exaggerated corporate phrasing, not new personal allegations.',
           personalities[input.style],
           `Intensity ${input.intensity}/5: ${intensities[input.intensity - 1]}`,
           `Write ${input.intensity >= 3 ? '60–110' : '40–80'} words in 3–6 short sentences, optionally split into two short paragraphs. Keep the post under 120 words. Use the phrase guide as a starting point, then expand it into a post; it is not a length limit.`,
           'Always finish with 2–4 relevant hashtags, such as #GrowthMindset #Gratitude #Networking #Leadership #SmallWins. Choose tags that fit the source. Include 1–2 fitting emojis. At higher intensities, a closing Agree? or question to the network is welcome.',
           phraseGuide,
-          'Style example for a mundane input:',
+          'Style examples:',
           'Happy and drinking coffee. → Thrilled to share that today is fuelled by coffee, positivity, and a deep appreciation for the little things. Sometimes growth starts with taking a moment to enjoy where you are. Humbled by the reminder that small moments deserve big gratitude. Here’s to showing up with a full cup and an open mindset. What’s keeping you going today? ☕ 🙏 #Gratitude #GrowthMindset #SmallWins',
+          'You are an asshole and I want nothing to do with you. → Thrilled to announce the immediate conclusion of our interpersonal partnership. Your commitment to being unpleasant has provided exceptional clarity on my future networking priorities. Humbled by the reminder that some connections create the most value when removed. Moving forward with stronger boundaries and significantly fewer conversations involving you. 🚀 #ProfessionalBoundaries #StrategicExit',
         ].join('\n'),
   ].join('\n');
 
