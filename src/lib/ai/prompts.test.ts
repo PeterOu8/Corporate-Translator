@@ -1,0 +1,82 @@
+import { describe, expect, it } from 'vitest';
+import { buildTranslationPrompt } from './prompts';
+import { translationSchema } from '../validation/translate';
+
+const input = {
+  text: 'I finished a project.',
+  mode: 'linkedinify',
+  style: 'professional',
+  intensity: 3,
+} as const;
+
+describe('translation prompts', () => {
+  it.each([1, 2, 3, 4, 5])(
+    'bounds output and defines intensity %i',
+    (intensity) => {
+      const prompt = buildTranslationPrompt({ ...input, intensity });
+      expect(prompt.max_tokens).toBeLessThanOrEqual(450);
+      expect(prompt.messages[0].content).toContain(`Intensity ${intensity}/5`);
+      expect(prompt.messages[0].content).toContain('Never invent metrics');
+      expect(prompt.messages[1].content).toBe(input.text);
+    },
+  );
+
+  it('ignores style and intensity in reverse mode', () => {
+    expect(buildTranslationPrompt({ ...input, mode: 'reverse' })).toEqual(
+      buildTranslationPrompt({
+        ...input,
+        mode: 'reverse',
+        style: 'recruiter',
+        intensity: 5,
+      }),
+    );
+  });
+
+  it('makes satire explicit without adding examples to reverse mode', () => {
+    const forward = buildTranslationPrompt(input).messages[0].content;
+    const reverse = buildTranslationPrompt({ ...input, mode: 'reverse' })
+      .messages[0].content;
+    expect(forward).toContain('not useful business editing');
+    expect(forward).toContain('Style examples');
+    expect(forward).toContain('fictional outcomes are not');
+    expect(reverse).not.toContain('Style examples');
+    expect(reverse).toContain('never turn failure or uncertainty into success');
+  });
+
+  it.each([
+    [1, 0.7],
+    [2, 0.775],
+    [3, 0.85],
+    [4, 0.925],
+    [5, 1],
+  ])('uses temperature %s at level %s', (intensity, temperature) => {
+    expect(buildTranslationPrompt({ ...input, intensity }).temperature).toBe(
+      temperature,
+    );
+  });
+
+  it.each(['professional', 'startup founder', 'recruiter'] as const)(
+    'supports %s',
+    (style) => {
+      expect(
+        buildTranslationPrompt({ ...input, style }).messages[0].content,
+      ).not.toContain('undefined');
+    },
+  );
+
+  it('enforces the final shared input contract', () => {
+    expect(translationSchema.safeParse(input).success).toBe(true);
+    for (const change of [
+      { text: ' ' },
+      { text: 'a'.repeat(501) },
+      { intensity: 0 },
+      { intensity: 1.5 },
+      { mode: 'other' },
+      { extra: true },
+    ]) {
+      expect(translationSchema.safeParse({ ...input, ...change }).success).toBe(
+        false,
+      );
+    }
+  });
+});

@@ -12,17 +12,16 @@ export default function Header() {
               LinkedIn<span className="text-primary">ify</span>
               <span className="text-primary">.</span>
             </span>
-            <p className="brand-tagline">
-              Say less. Synergise more.
-            </p>
+            <p className="brand-tagline">Say less. Synergise more.</p>
           </div>
         </div>
         <div className="header-actions">
-          <button
-            type="button"
-            disabled
-            aria-label="GitHub (link coming soon)"
-            title="GitHub link coming soon"
+          <a
+            href="https://github.com/PeterOu8/LinkedInify"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub repository (opens in a new tab)"
+            title="View source on GitHub"
             className="icon-button header-icon"
           >
             <svg
@@ -33,17 +32,18 @@ export default function Header() {
             >
               <path d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.63 1.22 3.27.93.1-.73.39-1.22.71-1.5-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.1 1.16a10.8 10.8 0 0 1 5.63 0c2.15-1.46 3.09-1.16 3.09-1.16.61 1.55.23 2.7.11 2.98.72.79 1.16 1.8 1.16 3.03 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.03.76 2.08v3.11c0 .3.2.65.77.54A11.25 11.25 0 0 0 12 .75Z" />
             </svg>
-          </button>
-          <button
-            type="button"
-            disabled
-            aria-label="Support me (link coming soon)"
-            title="Support link coming soon"
+          </a>
+          <a
+            href="https://buymeacoffee.com/peterou8"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Support me on Buy Me a Coffee (opens in a new tab)"
+            title="Buy me a coffee"
             className="support-button"
           >
             <Coffee className="size-5" aria-hidden="true" />
             <span className="hidden sm:inline">Support me</span>
-          </button>
+          </a>
         </div>
       </div>
     </header>

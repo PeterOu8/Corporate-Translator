@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Back chat bubble -->
+  <path
+    d="M20 6h17a7 7 0 0 1 7 7v13a7 7 0 0 1-7 7h-2l-7 6v-6h-8a7 7 0 0 1-7-7V13a7 7 0 0 1 7-7Z"
+    fill="#DBEAFE"
+    stroke="#93C5FD"
+    stroke-width="1.5"
+  />
+  <!-- Front chat bubble -->
+  <path
+    d="M10 14h17a7 7 0 0 1 7 7v12a7 7 0 0 1-7 7H15l-8 6v-6a7 7 0 0 1-4-6V21a7 7 0 0 1 7-7Z"
+    fill="#2563EB"
+  />
+  <!-- Arrows -->
+  <path
+    d="M11 24h15m-4-4 4 4-4 4M26 32H11m4-4-4 4 4 4"
+    stroke="white"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
