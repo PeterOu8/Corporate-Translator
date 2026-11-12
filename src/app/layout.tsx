@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import './globals.css';
-import { Analytics } from '@vercel/analytics/next';
 import { Geist } from 'next/font/google';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist-sans' });
@@ -15,7 +14,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={geist.variable}>
-      <Analytics />
       <body className="min-h-full flex flex-col">
         <Header />
         {children}
