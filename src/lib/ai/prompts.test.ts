@@ -11,10 +11,10 @@ const input = {
 
 describe('translation prompts', () => {
   it.each([1, 2, 3, 4, 5])(
-    'bounds output and defines intensity %i',
+    'defines intensity %i with a concise prompt',
     (intensity) => {
       const prompt = buildTranslationPrompt({ ...input, intensity });
-      expect(prompt.max_tokens).toBeLessThanOrEqual(450);
+      expect(prompt.messages[0].content.length).toBeLessThan(4500);
       expect(prompt.messages[0].content).toContain(`Intensity ${intensity}/5`);
       expect(prompt.messages[0].content).toContain('Never invent metrics');
       expect(prompt.messages[1].content).toBe(input.text);
@@ -36,11 +36,11 @@ describe('translation prompts', () => {
     const forward = buildTranslationPrompt(input).messages[0].content;
     const reverse = buildTranslationPrompt({ ...input, mode: 'reverse' })
       .messages[0].content;
-    expect(forward).toContain('not useful business editing');
-    expect(forward).toContain('Style examples');
-    expect(forward).toContain('fictional outcomes are not');
-    expect(reverse).not.toContain('Style examples');
-    expect(reverse).toContain('never turn failure or uncertainty into success');
+    expect(forward).toContain('large, absurdly enthusiastic LinkedIn post');
+    expect(forward).toContain('Phrase guide');
+    expect(forward).toContain('not from invented KPIs');
+    expect(reverse).not.toContain('Phrase guide');
+    expect(reverse).toContain('Never turn failure into success');
   });
 
   it.each([
@@ -64,6 +64,29 @@ describe('translation prompts', () => {
     },
   );
 
+  it('expands short coffee input into a hashtagged post', () => {
+    const text =
+      'im thrilled to annouce that im thrilled to be happy and drinking coffee';
+    const prompt = buildTranslationPrompt({ ...input, text, intensity: 5 });
+    expect(prompt.messages[0].content).toContain('60–110');
+    expect(prompt.messages[0].content).toContain(
+      'Do not match the source word count',
+    );
+    expect(prompt.messages[0].content).toContain(
+      'Always finish with 2–4 relevant hashtags',
+    );
+    expect(prompt.messages[0].content).toContain('coffee stays coffee');
+    expect(prompt.messages[1].content).toBe(text);
+  });
+
+  it.each([
+    'Hello → Thrilled to connect!',
+    "No → Let's take this offline.",
+    'How are you? → How are you crushing it today?',
+    'Where is the bathroom? → Quick question for my network: where is the bathroom? 🤔',
+  ])('retains the supplied phrase anchor: %s', (phrase) => {
+    expect(buildTranslationPrompt(input).messages[0].content).toContain(phrase);
+  });
   it('enforces the final shared input contract', () => {
     expect(translationSchema.safeParse(input).success).toBe(true);
     for (const change of [

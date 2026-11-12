@@ -1,5 +1,5 @@
 import { ApiError } from '@/lib/api-error';
-import { translate } from '@/lib/ai/nvidia';
+import { translate } from '@/lib/ai/groq';
 import { readJsonBody } from '@/lib/security/request-body';
 import { translationSchema } from '@/lib/validation/translate';
 

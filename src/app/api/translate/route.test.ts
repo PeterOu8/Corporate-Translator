@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
-vi.mock('@/lib/ai/nvidia', () => ({ translate: vi.fn() }));
-import { translate } from '@/lib/ai/nvidia';
+vi.mock('@/lib/ai/groq', () => ({ translate: vi.fn() }));
+import { translate } from '@/lib/ai/groq';
 import { POST } from './route';
+import { ApiError } from '@/lib/api-error';
 
 const validInput = {
   text: 'I helped Sam.',
@@ -18,13 +19,16 @@ function request(body: unknown) {
 }
 
 describe('POST /api/translate', () => {
-  it('returns validated results without caching', async () => {
-    vi.mocked(translate).mockResolvedValue('Supported Sam.');
-    const response = await POST(request(validInput));
-    expect(response.status).toBe(200);
-    expect(await response.json()).toEqual({ result: 'Supported Sam.' });
-    expect(response.headers.get('Cache-Control')).toBe('no-store');
-  });
+  it.each(['corporate', 'reverse'])(
+    'returns validated results without caching in %s mode',
+    async (mode) => {
+      vi.mocked(translate).mockResolvedValue('Supported Sam.');
+      const response = await POST(request({ ...validInput, mode }));
+      expect(response.status).toBe(200);
+      expect(await response.json()).toEqual({ result: 'Supported Sam.' });
+      expect(response.headers.get('Cache-Control')).toBe('no-store');
+    },
+  );
 
   it.each([
     { ...validInput, text: '' },
@@ -75,6 +79,27 @@ describe('POST /api/translate', () => {
       ).status,
     ).toBe(415);
   });
+
+  it.each([
+    [429, 'PROVIDER_RATE_LIMITED'],
+    [503, 'PROVIDER_AUTH_ERROR'],
+    [503, 'SERVER_CONFIGURATION_ERROR'],
+    [504, 'PROVIDER_TIMEOUT'],
+    [502, 'TRUNCATED_RESPONSE'],
+  ] as const)(
+    'preserves structured HTTP %i provider errors',
+    async (status, code) => {
+      vi.mocked(translate).mockRejectedValueOnce(
+        new ApiError(status, code, 'Safe translation error.'),
+      );
+      const response = await POST(request(validInput));
+      expect(response.status).toBe(status);
+      expect(await response.json()).toEqual({
+        error: { code, message: 'Safe translation error.' },
+      });
+      expect(response.headers.get('Cache-Control')).toBe('no-store');
+    },
+  );
 
   it('hides unexpected internal errors', async () => {
     vi.mocked(translate).mockRejectedValueOnce(new Error('secret details'));

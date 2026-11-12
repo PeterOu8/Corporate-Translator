@@ -23,6 +23,6 @@ export default defineConfig({
     url: 'http://localhost:3100',
     reuseExistingServer: false,
     timeout: 120_000,
-    env: { NVIDIA_API_KEY: '' },
+    env: { GROQ_API_KEY: '' },
   },
 });
