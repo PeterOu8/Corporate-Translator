@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import Header from '@/components/Header';
 import './globals.css';
 import { Geist } from 'next/font/google';
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       <body className="min-h-full flex flex-col">
         <Header />
         {children}
+        <Analytics />
       </body>
     </html>
   );
