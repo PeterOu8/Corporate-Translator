@@ -13,7 +13,7 @@ export const translationSchema = z
         `Maximum ${MAX_INPUT_LENGTH.toLocaleString('en-US')} characters.`,
       ),
 
-    mode: z.enum(['linkedinify', 'reverse']),
+    mode: z.enum(['corporate', 'reverse']),
 
     style: z.enum(['professional', 'startup founder', 'recruiter']),
 

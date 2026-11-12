@@ -8,16 +8,13 @@ export default function Header() {
         <div className="brand">
           <Logo className="size-11 shrink-0 sm:size-12" />
           <div>
-            <span className="brand-name">
-              LinkedIn<span className="text-primary">ify</span>
-              <span className="text-primary">.</span>
-            </span>
+            <span className="brand-name">Corporate Translator</span>
             <p className="brand-tagline">Say less. Synergise more.</p>
           </div>
         </div>
         <div className="header-actions">
           <a
-            href="https://github.com/PeterOu8/LinkedInify"
+            href="https://github.com/PeterOu8/Corporate-Translator"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub repository (opens in a new tab)"

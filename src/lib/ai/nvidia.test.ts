@@ -4,7 +4,7 @@ import { translate } from './nvidia';
 
 const input = {
   text: 'I helped Sam.',
-  mode: 'linkedinify',
+  mode: 'corporate',
   style: 'professional',
   intensity: 3,
 } as const;

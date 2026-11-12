@@ -4,7 +4,7 @@ import { translationSchema } from '../validation/translate';
 
 const input = {
   text: 'I finished a project.',
-  mode: 'linkedinify',
+  mode: 'corporate',
   style: 'professional',
   intensity: 3,
 } as const;

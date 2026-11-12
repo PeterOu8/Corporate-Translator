@@ -5,7 +5,7 @@ import { POST } from './route';
 
 const validInput = {
   text: 'I helped Sam.',
-  mode: 'linkedinify',
+  mode: 'corporate',
   style: 'professional',
   intensity: 3,
 };

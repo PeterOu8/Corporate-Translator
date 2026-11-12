@@ -1,4 +1,4 @@
-# LinkedInify
+# Corporate Translator
 
 ### Say less. Synergise more.
 
@@ -17,7 +17,7 @@ Built as a mini project with Next.js, TypeScript, Tailwind CSS, and NVIDIA NIM. 
 - **Responsive panels:** side by side on desktop, stacked on mobile. The swap control carries your last result into the new input.
 - **Honest failure states:** loading disables duplicate submissions; failed requests keep your text and last successful result.
 
-The header links to the [GitHub repository](https://github.com/PeterOu8/LinkedInify) and [Buy Me a Coffee](https://buymeacoffee.com/peterou8). The microphone is an inactive placeholder; its roadmap is currently enjoying a well-earned coffee break.
+The header links to the [GitHub repository](https://github.com/PeterOu8/Corporate-Translator) and [Buy Me a Coffee](https://buymeacoffee.com/peterou8). The microphone is an inactive placeholder; its roadmap is currently enjoying a well-earned coffee break.
 
 ## Screenshots from the synergy department
 
@@ -98,13 +98,13 @@ Content-Type: application/json
 ```json
 {
   "text": "I finished my homework.",
-  "mode": "linkedinify",
+  "mode": "Corporate Translator",
   "style": "professional",
   "intensity": 3
 }
 ```
 
-- `mode`: `linkedinify` or `reverse`.
+- `mode`: `Corporate Translator` or `reverse`.
 - `style`: `professional`, `startup founder`, or `recruiter`.
 - `intensity`: integer from 1 to 5.
 - `text`: trimmed, non-empty, at most 500 characters. Unexpected fields are rejected.

@@ -30,15 +30,15 @@ export default function Translator() {
     resolver: zodResolver(translationSchema),
     defaultValues: {
       text: '',
-      mode: 'linkedinify',
+      mode: 'corporate',
       style: 'professional',
       intensity: 3,
     },
     mode: 'onChange',
   });
   const [text, mode] = useWatch({ control, name: ['text', 'mode'] });
-  const source = mode === 'linkedinify' ? 'English' : 'LinkedIn Jargon';
-  const target = mode === 'linkedinify' ? 'LinkedIn Jargon' : 'English';
+  const source = mode === 'corporate' ? 'English' : 'LinkedIn Jargon';
+  const target = mode === 'corporate' ? 'LinkedIn Jargon' : 'English';
 
   useEffect(() => () => activeRequest.current?.abort(), []);
 
@@ -109,11 +109,9 @@ export default function Translator() {
             aria-label={`Swap direction: translate ${target} to ${source}`}
             onClick={() => {
               if (activeRequest.current) return;
-              setValue(
-                'mode',
-                mode === 'linkedinify' ? 'reverse' : 'linkedinify',
-                { shouldDirty: true },
-              );
+              setValue('mode', mode === 'corporate' ? 'reverse' : 'corporate', {
+                shouldDirty: true,
+              });
               if (result)
                 setValue('text', result, {
                   shouldDirty: true,
